@@ -6,7 +6,6 @@ export const App = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setError,
     formState: { errors, isSubmitting }
   } = useForm();
@@ -20,21 +19,27 @@ export const App = () => {
   };
 
   const onSubmit = async data => {
-    await Delay(2);
+    // await Delay(2);
+    let r = await fetch("http://localhost:5000", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    let res = await r.text();
+    console.log(data, res);
 
-    alert(`username: ${data.username}\npassword: ${data.password}`);
-    console.log(data);
-
-    if (data.username != "Abdullah") {
-      setError("allforms", {
-        message: "The user is not in our server!"
-      });
-      if (data.username == "Hacker") {
-        setError("bloked_user", {
-          message: "This user is bloked in our server!"
-        });
-      }
-    }
+    //   if (data.username != "Abdullah") {
+    //     setError("allforms", {
+    //       message: "The user is not in our server!"
+    //     });
+    //     if (data.username == "Hacker") {
+    //       setError("bloked_user", {
+    //         message: "This user is bloked in our server!"
+    //       });
+    //     }
+    //   }
   };
 
   return (
